@@ -36,15 +36,37 @@ void Messenger::setChanelSize(uint64_t size)
 void Messenger::sendMessage(HANDLE chanel, msg& message, COMMANDLIST command)
 {
 	std::string msg = toByte(message, command);
-	WriteFile(chanel, &msg[0], chanelSize, NULL, 0);
+	uint64_t msgSize = getMSGsize(msg);
+	uint64_t sendTimes = (msgSize + msgSize % chanelSize) / chanelSize;
+	uint64_t offset = 0;
+	for (uint64_t i = 0; i <= sendTimes; ++i)
+	{
+		WriteFile(chanel, &msg[offset], chanelSize, NULL, 0);
+		offset += chanelSize;
+	}
+	
 }
 
 Messenger::COMMANDLIST Messenger::readMessage(HANDLE chanel, msg& message)
 {
 	std::string msg;
 	COMMANDLIST command;
-	msg.resize(chanelSize);
-	ReadFile(chanel, &msg[0], chanelSize, NULL, 0);
+	uint64_t msgSize = sizeof(COMMANDLIST) + sizeof(uint64_t), offset = 0;
+	uint64_t sendTimes = (msgSize + msgSize % chanelSize) / chanelSize;
+	msg.resize(msgSize + msgSize % chanelSize);
+	for (uint64_t i = 0; i < sendTimes; ++i)
+	{
+		ReadFile(chanel, &msg[offset], chanelSize, NULL, 0);
+		offset += chanelSize;
+	}
+	msgSize = getMSGsize(msg);
+	sendTimes = (msgSize + msgSize % chanelSize) / chanelSize - sendTimes;
+	msg.resize(msgSize + msgSize % chanelSize);
+	for (uint64_t i = 0; i <= sendTimes; ++i)
+	{
+		ReadFile(chanel, &msg[offset], chanelSize, NULL, 0);
+		offset += chanelSize;
+	}
 	message = fromByte(msg, command);
 	return command;
 }
@@ -104,4 +126,11 @@ msg Messenger::fromByte(std::string str, COMMANDLIST& command)
 		offset += arraySize;
 	}
 	return newMessage;
+}
+
+uint64_t Messenger::getMSGsize(std::string str)
+{
+	uint64_t tempSize = 0, 	offset = sizeof(COMMANDLIST);
+	std::memcpy(&tempSize, &str[offset], sizeof(tempSize));
+	return tempSize;
 }

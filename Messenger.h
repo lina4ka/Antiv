@@ -19,13 +19,14 @@ private:
 class Messenger
 {
 public:
-	uint64_t chanelSize = 0;
 	void setChanelSize(uint64_t size);
 	enum class COMMANDLIST : uint8_t {UNKNOWN,START_SCAN,STOP_SCAN,MOVE_TO_QUARANTINE, DELETE_FILE} ;
 	void sendMessage(HANDLE chanel,msg& message, COMMANDLIST command);
 	Messenger::COMMANDLIST readMessage(HANDLE chanel, msg& message);
-//private:
+private:
+	uint64_t chanelSize = 0;
 	std::string toByte(msg& message, COMMANDLIST command);
 	msg fromByte(std::string str, COMMANDLIST & command);
+	uint64_t getMSGsize(std::string str);
 };
 
