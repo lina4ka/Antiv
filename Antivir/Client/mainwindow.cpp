@@ -177,7 +177,7 @@ void MainWindow::on_bStopServ_clicked()
 
 void MainWindow::on_bStartServ_clicked()
 {
-    system("C:\\Users\\fdn00\\Desktop\\ANTIV\\Service\\x64\\Debug\\ServerOn.exe");
+    system("ServerOn.exe");
 }
 
 void MainWindow::reconnect()

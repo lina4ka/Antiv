@@ -27,7 +27,7 @@
      <number>0</number>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QPushButton" name="bScan">
@@ -35,7 +35,7 @@
        <rect>
         <x>790</x>
         <y>130</y>
-        <width>201</width>
+        <width>211</width>
         <height>23</height>
        </rect>
       </property>
@@ -48,7 +48,7 @@
        <rect>
         <x>790</x>
         <y>190</y>
-        <width>201</width>
+        <width>211</width>
         <height>23</height>
        </rect>
       </property>
@@ -61,12 +61,13 @@
        <rect>
         <x>790</x>
         <y>220</y>
-        <width>201</width>
-        <height>23</height>
+        <width>211</width>
+        <height>51</height>
        </rect>
       </property>
       <property name="text">
-       <string>яНеЗнаюСлова</string>
+       <string>Мониторинг
+Отложенное сканирование</string>
       </property>
      </widget>
      <widget class="QPushButton" name="bStop">
@@ -74,7 +75,7 @@
        <rect>
         <x>790</x>
         <y>160</y>
-        <width>201</width>
+        <width>211</width>
         <height>23</height>
        </rect>
       </property>
